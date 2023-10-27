@@ -1,8 +1,9 @@
 import pygame
-from OpenGL.GL import *
+import glm
+from pygame.locals import *
 
 from Renderer import Renderer
-from Buffer import Buffer
+from Model import Model
 from Shaders import *
 
 width = 960
@@ -15,30 +16,36 @@ clock = pygame.time.Clock()
 renderer = Renderer(screen)
 renderer.setShader(vertex_shader, fragment_shader)
 # x, y, z, r, g, b
-triangle = [
+triangleData = [
     -0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
     0.0, 0.5, 0.0, 0.0, 1.0, 0.0,
     0.5, -0.5, 0.0, 0.0, 0.0, 1.0,
 ]
-renderer.scene.append(Buffer(triangle))
+triangleModel = Model(triangleData)
+triangleModel.position.z = -5
+triangleModel.scale = glm.vec3(3, 3, 3)
+renderer.scene.append(triangleModel)
 
 isRunning = True
 while isRunning:
     deltaTime = clock.tick(60) / 1000.0
+    renderer.elapsedTime += deltaTime
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_RIGHT]:
+    if keys[K_RIGHT]:
         renderer.clearColor[0] += deltaTime
-    if keys[pygame.K_LEFT]:
+    if keys[K_LEFT]:
         renderer.clearColor[0] -= deltaTime
-    if keys[pygame.K_UP]:
+    if keys[K_UP]:
         renderer.clearColor[1] += deltaTime
-    if keys[pygame.K_DOWN]:
+    if keys[K_DOWN]:
         renderer.clearColor[1] -= deltaTime
-    if keys[pygame.K_SPACE]:
+    if keys[K_SPACE]:
         renderer.clearColor[2] += deltaTime
-    if keys[pygame.K_LSHIFT]:
+    if keys[K_LSHIFT]:
         renderer.clearColor[2] -= deltaTime
+
+    triangleModel.rotation.y += deltaTime * 50
 
     # Handle quit
     for event in pygame.event.get():
