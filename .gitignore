@@ -1,5 +1,6 @@
 .idea
 .venv
+Textures/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
