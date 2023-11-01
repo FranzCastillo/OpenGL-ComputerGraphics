@@ -3,8 +3,8 @@ import glm
 from pygame.locals import *
 
 from Renderer import Renderer
-from Model import Model
 from Shaders import *
+from OBJ import OBJ
 
 def main():
     width = 960
@@ -16,21 +16,9 @@ def main():
 
     renderer = Renderer(screen)
     renderer.setShader(vertex_shader, fragment_shader)
-    # x, y, z, U, V
-    triangleData = [
-        -0.5, -0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
-        -0.5, 0.5, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0,
-        0.5, -0.5, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0,
-
-        -0.5, 0.5, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0,
-        0.5, 0.5, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0,
-        0.5, -0.5, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0,
-    ]
-    triangleModel = Model(triangleData)
-    triangleModel.loadTexture("Textures/text.jpg")
-    triangleModel.position.z = -5
-    triangleModel.scale = glm.vec3(3, 3, 3)
-    renderer.scene.append(triangleModel)
+    obj = OBJ("Models/Pumpkin/pumpkin.obj", "Models/Pumpkin/pumpkin.png")
+    obj.model.position = glm.vec3(0.0, -0.3, -1.0)
+    renderer.scene.append(obj.model)
 
     isRunning = True
     while isRunning:
@@ -52,13 +40,13 @@ def main():
             renderer.clearColor[2] -= deltaTime
 
         if keys[K_d]:
-            triangleModel.rotation.y += deltaTime * 50
+            obj.model.rotation.y += deltaTime * 50
         if keys[K_a]:
-            triangleModel.rotation.y -= deltaTime * 50
+            obj.model.rotation.y -= deltaTime * 50
         if keys[K_w]:
-            triangleModel.rotation.x += deltaTime * 50
+            obj.model.rotation.x += deltaTime * 50
         if keys[K_s]:
-            triangleModel.rotation.x -= deltaTime * 50
+            obj.model.rotation.x -= deltaTime * 50
 
 
         # Handle quit
