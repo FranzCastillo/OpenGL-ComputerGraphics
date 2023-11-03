@@ -35,7 +35,6 @@ class Model(object):
         glBindBuffer(GL_ARRAY_BUFFER, self.VBO)
         glBindVertexArray(self.VAO)
 
-        # Attribute number, size, type, normalized, stride, pointer
         glBufferData(GL_ARRAY_BUFFER, self.vertexBuffer.nbytes, self.vertexBuffer, GL_STATIC_DRAW)
 
         # Positions: Attribute number, size, type, normalized, stride, offset

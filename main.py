@@ -17,8 +17,9 @@ def main():
     renderer = Renderer(screen)
     renderer.setShader(vertex_shader, fragment_shader)
     obj = OBJ("Models/Pumpkin/pumpkin.obj", "Models/Pumpkin/pumpkin.png")
-    obj.model.position = glm.vec3(0.0, -0.3, -1.0)
+    obj.model.position = glm.vec3(0.0, 0.0, -1.5)
     renderer.scene.append(obj.model)
+    renderer.target = obj.model.position
 
     isRunning = True
     while isRunning:
@@ -27,17 +28,17 @@ def main():
         keys = pygame.key.get_pressed()
 
         if keys[K_RIGHT]:
-            renderer.clearColor[0] += deltaTime
+            obj.model.position.x += deltaTime
         if keys[K_LEFT]:
-            renderer.clearColor[0] -= deltaTime
+            obj.model.position.x -= deltaTime
         if keys[K_UP]:
-            renderer.clearColor[1] += deltaTime
+            obj.model.position.y += deltaTime
         if keys[K_DOWN]:
-            renderer.clearColor[1] -= deltaTime
+            obj.model.position.y -= deltaTime
         if keys[K_SPACE]:
-            renderer.clearColor[2] += deltaTime
+            obj.model.position.z += deltaTime
         if keys[K_LSHIFT]:
-            renderer.clearColor[2] -= deltaTime
+            obj.model.position.z -= deltaTime
 
         if keys[K_d]:
             obj.model.rotation.y += deltaTime * 50
@@ -48,6 +49,12 @@ def main():
         if keys[K_s]:
             obj.model.rotation.x -= deltaTime * 50
 
+        if keys[K_q]:
+            if renderer.fatness > 0:
+                renderer.fatness -= deltaTime
+        if keys[K_e]:
+            if renderer.fatness < 1:
+                renderer.fatness += deltaTime
 
         # Handle quit
         for event in pygame.event.get():
@@ -56,7 +63,10 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     isRunning = False
+                if event.key == pygame.K_f:
+                    renderer.toggleFilledMode()
 
+        renderer.updateViewMatrix()
         renderer.render()
         pygame.display.flip()
 

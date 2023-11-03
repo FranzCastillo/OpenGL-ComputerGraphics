@@ -29,10 +29,42 @@ class OBJ:
     def _transformData(self):
         data = []
         for face in self.faces:
-            for vertexInfo in face:
-                vertexId, textureID, normalId = vertexInfo
-                vertex = self.vertices[vertexId - 1]
-                normals = self.normals[normalId - 1]
-                uv = self.texture_coordinates[textureID - 1]
-                data.extend(vertex + uv + normals)
+            if len(face) == 3:
+                for vertex in face:
+                    # Vertex
+                    data.append(self.vertices[vertex[0] - 1][0])
+                    data.append(self.vertices[vertex[0] - 1][1])
+                    data.append(self.vertices[vertex[0] - 1][2])
+                    # Texture Coordinates
+                    data.append(self.texture_coordinates[vertex[1] - 1][0])
+                    data.append(self.texture_coordinates[vertex[1] - 1][1])
+                    # Normals
+                    data.append(self.normals[vertex[2] - 1][0])
+                    data.append(self.normals[vertex[2] - 1][1])
+                    data.append(self.normals[vertex[2] - 1][2])
+            elif len(face) == 4:
+                for i in range(3):
+                    # Vertex
+                    data.append(self.vertices[face[i][0] - 1][0])
+                    data.append(self.vertices[face[i][0] - 1][1])
+                    data.append(self.vertices[face[i][0] - 1][2])
+                    # Texture Coordinates
+                    data.append(self.texture_coordinates[face[i][1] - 1][0])
+                    data.append(self.texture_coordinates[face[i][1] - 1][1])
+                    # Normals
+                    data.append(self.normals[face[i][2] - 1][0])
+                    data.append(self.normals[face[i][2] - 1][1])
+                    data.append(self.normals[face[i][2] - 1][2])
+                for i in range(2, 5):
+                    # Vertex
+                    data.append(self.vertices[face[i][0] - 1][0])
+                    data.append(self.vertices[face[i][0] - 1][1])
+                    data.append(self.vertices[face[i][0] - 1][2])
+                    # Texture Coordinates
+                    data.append(self.texture_coordinates[face[i][1] - 1][0])
+                    data.append(self.texture_coordinates[face[i][1] - 1][1])
+                    # Normals
+                    data.append(self.normals[face[i][2] - 1][0])
+                    data.append(self.normals[face[i][2] - 1][1])
+                    data.append(self.normals[face[i][2] - 1][2])
         return data

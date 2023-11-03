@@ -9,6 +9,7 @@ vertex_shader = """
     uniform mat4 modelMatrix;
     uniform mat4 viewMatrix;
     uniform mat4 projectionMatrix;
+    uniform float time;
     
     out vec2 UVs;
     out vec3 normal;
@@ -16,7 +17,9 @@ vertex_shader = """
     void main() {
         gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
         UVs = texCoords;
-        normal = (modelMatrix * vec4(normals, 0.0)).xyz;
+        normal = normalize(
+            (modelMatrix * vec4(normals, 0.0)).xyz
+        );
     }
 """
 
@@ -25,11 +28,14 @@ fragment_shader = """
     
     layout (binding = 0) uniform sampler2D tex;
     
+    uniform vec3 directionalLight;
+    
     in vec2 UVs;
     in vec3 normal;
     out vec4 fragColor;
     
     void main() {
+        float intensity = dot(normal, -directionalLight);
         fragColor = texture(tex, UVs);
     }
 """
