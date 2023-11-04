@@ -17,7 +17,7 @@ def main():
     renderer = Renderer(screen)
     renderer.setShader(vertex_shader, fragment_shader)
     obj = OBJ("Models/Pumpkin/pumpkin.obj", "Models/Pumpkin/pumpkin.png")
-    obj.model.position = glm.vec3(0.0, 0.0, -1.5)
+    obj.model.position = glm.vec3(0.0, -0.4, -1.5)
     renderer.scene.append(obj.model)
     renderer.target = obj.model.position
 

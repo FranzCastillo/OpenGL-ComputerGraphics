@@ -28,6 +28,20 @@ fragment_shader = """
     
     layout (binding = 0) uniform sampler2D tex;
     
+    in vec2 UVs;
+    in vec3 normal;
+    out vec4 fragColor;
+    
+    void main() {
+        fragColor = texture(tex, UVs);
+    }
+"""
+
+gourad_fragment_shader = """
+    #version 450 core
+    
+    layout (binding = 0) uniform sampler2D tex;
+    
     uniform vec3 directionalLight;
     
     in vec2 UVs;
@@ -36,6 +50,6 @@ fragment_shader = """
     
     void main() {
         float intensity = dot(normal, -directionalLight);
-        fragColor = texture(tex, UVs);
+        fragColor = texture(tex, UVs) * intensity;
     }
 """
