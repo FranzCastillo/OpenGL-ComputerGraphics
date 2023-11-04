@@ -65,6 +65,11 @@ def main():
                     isRunning = False
                 if event.key == pygame.K_f:
                     renderer.toggleFilledMode()
+                # Handle Shaders
+                if event.key == K_0:
+                    renderer.setShader(vertex_shader, fragment_shader)
+                if event.key == K_1:
+                    renderer.setShader(vertex_shader, tvStatic_fragment_shader)
 
         renderer.updateViewMatrix()
         renderer.render()

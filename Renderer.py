@@ -46,7 +46,7 @@ class Renderer(object):
             glEnable(GL_CULL_FACE)
             glPolygonMode(GL_FRONT, GL_FILL)
         else:
-            glDisable(GL_CULL_FACE)
+            # glDisable(GL_CULL_FACE)
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
 
     def getViewMatrix(self):
