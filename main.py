@@ -70,6 +70,22 @@ def main():
                     renderer.setShader(vertex_shader, fragment_shader)
                 if event.key == K_1:
                     renderer.setShader(vertex_shader, tvStatic_fragment_shader)
+                if event.key == K_2:
+                    renderer.setShader(vertex_shader, random_normal_map_fragment_shader)
+                if event.key == K_3:
+                    renderer.setShader(vertex_shader, rainbow_fragment_shader)
+                if event.key == K_4:
+                    renderer.setShader(vertex_shader, ripple_fragment_shader)
+                if event.key == K_5:
+                    renderer.setShader(vertex_shader, fire_fragment_shader)
+                if event.key == K_6:
+                    renderer.setShader(vertex_shader, grayscale_fragment_shader)
+                if event.key == K_7:
+                    renderer.setShader(vertex_shader, blur_fragment_shader)
+                if event.key == K_8:
+                    renderer.setShader(glitch_vertex_shader, glitch_fragment_shader)
+                if event.key == K_9:
+                    renderer.setShader(heart_vertex_shader, heart_fragment_shader)
 
         renderer.updateViewMatrix()
         renderer.render()
