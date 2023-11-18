@@ -1,3 +1,5 @@
+import math
+
 import pygame
 import glm
 from pygame.locals import *
@@ -22,39 +24,34 @@ def main():
     renderer.target = obj.model.position
 
     isRunning = True
+
+    radius = 3
+    angle = 0
+    speed = 0.1
+
     while isRunning:
         deltaTime = clock.tick(60) / 1000.0
         renderer.elapsedTime += deltaTime
         keys = pygame.key.get_pressed()
 
-        if keys[K_RIGHT]:
-            obj.model.position.x += deltaTime
-        if keys[K_LEFT]:
-            obj.model.position.x -= deltaTime
-        if keys[K_UP]:
-            obj.model.position.y += deltaTime
-        if keys[K_DOWN]:
-            obj.model.position.y -= deltaTime
-        if keys[K_SPACE]:
-            obj.model.position.z += deltaTime
-        if keys[K_LSHIFT]:
-            obj.model.position.z -= deltaTime
-
-        if keys[K_d]:
-            obj.model.rotation.y += deltaTime * 50
         if keys[K_a]:
-            obj.model.rotation.y -= deltaTime * 50
+            angle += speed
+        if keys[K_d]:
+            angle -= speed
         if keys[K_w]:
-            obj.model.rotation.x += deltaTime * 50
+            if renderer.cameraPosition.y < 1.0:
+                renderer.cameraPosition.y += speed
         if keys[K_s]:
-            obj.model.rotation.x -= deltaTime * 50
+            if renderer.cameraPosition.y > -1.0:
+                renderer.cameraPosition.y -= speed
+        if keys[K_SPACE]:
+            radius += speed
+        if keys[K_LSHIFT]:
+            radius -= speed
 
-        if keys[K_q]:
-            if renderer.fatness > 0:
-                renderer.fatness -= deltaTime
-        if keys[K_e]:
-            if renderer.fatness < 1:
-                renderer.fatness += deltaTime
+        renderer.cameraPosition.x = obj.model.position.x + radius * math.sin(angle)
+        renderer.cameraPosition.z = obj.model.position.z + radius * math.cos(angle)
+
 
         # Handle quit
         for event in pygame.event.get():

@@ -32,12 +32,12 @@ class Renderer(object):
         glViewport(0, 0, self.width, self.height)
 
     def updateViewMatrix(self):
-        self.viewMatrix = self.getViewMatrix()
-        # self.viewMatrix = glm.lookAt(
-        #     self.cameraPosition,
-        #     self.target,
-        #     glm.vec3(0.0, 1.0, 0.0)
-        # )
+        # self.viewMatrix = self.getViewMatrix()
+        self.viewMatrix = glm.lookAt(
+            self.cameraPosition,
+            self.target,
+            glm.vec3(0.0, 1.0, 0.0)
+        )
 
     def toggleFilledMode(self):
         self.filledMode = not self.filledMode
