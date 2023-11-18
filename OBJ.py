@@ -55,7 +55,7 @@ class OBJ:
                     data.append(self.normals[face[i][2] - 1][0])
                     data.append(self.normals[face[i][2] - 1][1])
                     data.append(self.normals[face[i][2] - 1][2])
-                for i in range(2, 5):
+                for i in [0, 2, 3]:
                     # Vertex
                     data.append(self.vertices[face[i][0] - 1][0])
                     data.append(self.vertices[face[i][0] - 1][1])
