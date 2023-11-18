@@ -8,6 +8,42 @@ from Renderer import Renderer
 from Shaders import *
 from OBJ import OBJ
 
+
+def getModels():
+    models = []
+
+    obj = OBJ("Models/Pumpkin/pumpkin.obj", "Models/Pumpkin/pumpkin.png")
+    obj.model.position = glm.vec3(0.0, 0, -5)
+    obj.model.scale = glm.vec3(1.5, 1.5, 1.5)
+    models.append(obj)
+
+    obj = OBJ("Models/Duck/duck.obj", "Models/Duck/duck.jpg")
+    obj.model.position = glm.vec3(0, -3, 0)
+    obj.model.scale = glm.vec3(0.05, 0.05, 0.05)
+    obj.model.rotation = glm.vec3(-90, 0, 0)
+    models.append(obj)
+
+    obj = OBJ("Models/Death/death.obj", "Models/Death/death.jpg")
+    obj.model.position = glm.vec3(0, -3, 0)
+    obj.model.scale = glm.vec3(0.01, 0.01, 0.01)
+    models.append(obj)
+
+    obj = OBJ("Models/Bender/robo.obj", "Models/Bender/robo.png")
+    obj.model.position = glm.vec3(0, -3, 0)
+    models.append(obj)
+
+    return models
+
+
+def getModel(renderer, models, index):
+    index = index % len(models)
+    obj = models[index]
+    renderer.scene.clear()
+    renderer.scene.append(obj.model)
+    renderer.target = obj.model.position
+    return obj
+
+
 def main():
     width = 960
     height = 540
@@ -18,14 +54,17 @@ def main():
 
     renderer = Renderer(screen)
     renderer.setShader(vertex_shader, fragment_shader)
-    obj = OBJ("Models/Duck/duck.obj", "Models/Duck/duck.jpg")
-    obj.model.position = glm.vec3(0.0, -0.4, -1.5)
+
+    model_index = 0
+    models = getModels()
+    obj = models[0]
     renderer.scene.append(obj.model)
+
     renderer.target = obj.model.position
 
     isRunning = True
 
-    radius = 3
+    radius = 5
     angle = 0
     speed = 0.1
 
@@ -51,8 +90,6 @@ def main():
 
         renderer.cameraPosition.x = obj.model.position.x + radius * math.sin(angle)
         renderer.cameraPosition.z = obj.model.position.z + radius * math.cos(angle)
-
-
         # Handle quit
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -62,7 +99,12 @@ def main():
                     isRunning = False
                 if event.key == pygame.K_f:
                     renderer.toggleFilledMode()
-                # Handle Shaders
+                if event.key == K_RIGHT:
+                    model_index += 1
+                    obj = getModel(renderer, models, model_index)
+                if event.key == K_LEFT:
+                    model_index -= 1
+                    obj = getModel(renderer, models, model_index)
                 if event.key == K_0:
                     renderer.setShader(vertex_shader, fragment_shader)
                 if event.key == K_1:
