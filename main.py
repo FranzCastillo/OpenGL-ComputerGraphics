@@ -13,23 +13,33 @@ def getModels():
     models = []
 
     obj = OBJ("Models/Pumpkin/pumpkin.obj", "Models/Pumpkin/pumpkin.png")
-    obj.model.position = glm.vec3(0.0, 0, -5)
-    obj.model.scale = glm.vec3(1.5, 1.5, 1.5)
+    obj.original_position = glm.vec3(0.0, 0.0, 0.0)
+    obj.model.scale = glm.vec3(2, 2, 2)
+    obj.center = glm.vec3(0.0, 1.0, 0.0)
+    obj.top = 2.5
+    obj.bottom = -2.5
     models.append(obj)
 
     obj = OBJ("Models/Duck/duck.obj", "Models/Duck/duck.jpg")
-    obj.model.position = glm.vec3(0, -3, 0)
+    obj.original_position = glm.vec3(0, -3, 0)
     obj.model.scale = glm.vec3(0.05, 0.05, 0.05)
     obj.model.rotation = glm.vec3(-90, 0, 0)
+    obj.center = glm.vec3(0, 1.0, 0)
     models.append(obj)
 
     obj = OBJ("Models/Death/death.obj", "Models/Death/death.jpg")
-    obj.model.position = glm.vec3(0, -3, 0)
+    obj.original_position = glm.vec3(0, 0, 0)
     obj.model.scale = glm.vec3(0.01, 0.01, 0.01)
+    obj.center = glm.vec3(0, 0.5, 0)
+    obj.top = 2
     models.append(obj)
 
     obj = OBJ("Models/Bender/robo.obj", "Models/Bender/robo.png")
-    obj.model.position = glm.vec3(0, -3, 0)
+    obj.original_position = glm.vec3(0, 0, 0)
+    obj.model.scale = glm.vec3(1.2, 1.2, 1.2)
+    obj.center = glm.vec3(0, 0.5, 0)
+    obj.top = 3
+    obj.bottom = -3
     models.append(obj)
 
     return models
@@ -38,9 +48,10 @@ def getModels():
 def getModel(renderer, models, index):
     index = index % len(models)
     obj = models[index]
+    obj.model.position = obj.original_position
     renderer.scene.clear()
     renderer.scene.append(obj.model)
-    renderer.target = obj.model.position
+    renderer.target = obj.model.position + obj.center
     return obj
 
 
