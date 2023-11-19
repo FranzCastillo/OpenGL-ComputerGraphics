@@ -68,21 +68,14 @@ def main():
     angle = 0
     speed = 0.1
 
+    is_clicking = False
+    last_mouse_pos = None
+
     while isRunning:
         deltaTime = clock.tick(60) / 1000.0
         renderer.elapsedTime += deltaTime
         keys = pygame.key.get_pressed()
 
-        if keys[K_a]:
-            angle += speed
-        if keys[K_d]:
-            angle -= speed
-        if keys[K_w]:
-            if renderer.cameraPosition.y < 1.0:
-                renderer.cameraPosition.y += speed
-        if keys[K_s]:
-            if renderer.cameraPosition.y > -1.0:
-                renderer.cameraPosition.y -= speed
         if keys[K_SPACE]:
             radius += speed
         if keys[K_LSHIFT]:
@@ -105,6 +98,7 @@ def main():
                 if event.key == K_LEFT:
                     model_index -= 1
                     obj = getModel(renderer, models, model_index)
+
                 if event.key == K_0:
                     renderer.setShader(vertex_shader, fragment_shader)
                 if event.key == K_1:
@@ -126,6 +120,34 @@ def main():
                 if event.key == K_9:
                     renderer.setShader(heart_vertex_shader, heart_fragment_shader)
 
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    is_clicking = True
+                    last_mouse_pos = pygame.mouse.get_pos()
+                # Adjust the radius with the mouse wheel
+                elif event.button == 4:
+                    radius += speed
+                elif event.button == 5:
+                    radius -= speed
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    is_clicking = False
+                    last_mouse_pos = None
+            elif event.type == pygame.MOUSEMOTION:
+                if is_clicking:
+                    mouse_pos = pygame.mouse.get_pos()
+
+                    x = last_mouse_pos[0] - mouse_pos[0]
+                    angle += x * 0.01
+
+                    y = last_mouse_pos[1] - mouse_pos[1]
+                    renderer.cameraPosition.y -= y * 0.01
+                    if renderer.cameraPosition.y > 1.0:
+                        renderer.cameraPosition.y = 1.0
+                    if renderer.cameraPosition.y < -1.0:
+                        renderer.cameraPosition.y = -1.0
+
+                    last_mouse_pos = mouse_pos
         renderer.updateViewMatrix()
         renderer.render()
         pygame.display.flip()
