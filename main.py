@@ -126,9 +126,13 @@ def main():
                     last_mouse_pos = pygame.mouse.get_pos()
                 # Adjust the radius with the mouse wheel
                 elif event.button == 4:
-                    radius += speed
-                elif event.button == 5:
                     radius -= speed
+                    if radius < obj.closest:
+                        radius = obj.closest
+                elif event.button == 5:
+                    radius += speed
+                    if radius > obj.furthest:
+                        radius = obj.furthest
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     is_clicking = False
@@ -142,10 +146,10 @@ def main():
 
                     y = last_mouse_pos[1] - mouse_pos[1]
                     renderer.cameraPosition.y -= y * 0.01
-                    if renderer.cameraPosition.y > 1.0:
-                        renderer.cameraPosition.y = 1.0
-                    if renderer.cameraPosition.y < -1.0:
-                        renderer.cameraPosition.y = -1.0
+                    if renderer.cameraPosition.y > obj.top:
+                        renderer.cameraPosition.y = obj.top
+                    if renderer.cameraPosition.y < obj.bottom:
+                        renderer.cameraPosition.y = obj.bottom
 
                     last_mouse_pos = mouse_pos
         renderer.updateViewMatrix()

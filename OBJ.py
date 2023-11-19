@@ -7,6 +7,11 @@ class OBJ:
         self.texture_coordinates = []
         self.normals = []
         self.faces = []
+        self.initial_radius = 2.0
+        self.closest = 2.0
+        self.furthest = 5.0
+        self.top = 1.0
+        self.bottom = -1.0
         with open(modelPath) as file:
             for line in file:
                 if line.startswith("v "):
@@ -68,3 +73,10 @@ class OBJ:
                     data.append(self.normals[face[i][2] - 1][1])
                     data.append(self.normals[face[i][2] - 1][2])
         return data
+
+    def setLimits(self, radius, closest, furthest, top, bottom):
+        self.initial_radius = radius
+        self.closest = closest
+        self.furthest = furthest
+        self.top = top
+        self.bottom = bottom
