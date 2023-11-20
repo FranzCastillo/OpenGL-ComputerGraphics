@@ -92,13 +92,6 @@ def main():
     while isRunning:
         deltaTime = clock.tick(60) / 1000.0
         renderer.elapsedTime += deltaTime
-        keys = pygame.key.get_pressed()
-
-        if keys[K_SPACE]:
-            radius += speed
-        if keys[K_LSHIFT]:
-            radius -= speed
-
         renderer.cameraPosition.x = obj.model.position.x + radius * math.sin(angle)
         renderer.cameraPosition.z = obj.model.position.z + radius * math.cos(angle)
         # Handle quit
