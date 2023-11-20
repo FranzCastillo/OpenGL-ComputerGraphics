@@ -1,4 +1,5 @@
 import math
+import os
 
 import pygame
 import glm
@@ -82,6 +83,12 @@ def main():
     is_clicking = False
     last_mouse_pos = None
 
+    playingMusic = True
+    audio_files = ["pumpkin.mp3", "duck.mp3", "death.mp3", "bender.mp3"]
+    sounds = [pygame.mixer.Sound(os.path.join('Audio', file)) for file in audio_files]
+    audio_index = 0
+    sounds[audio_index].play()
+
     while isRunning:
         deltaTime = clock.tick(60) / 1000.0
         renderer.elapsedTime += deltaTime
@@ -106,10 +113,25 @@ def main():
                 if event.key == K_RIGHT:
                     model_index += 1
                     obj = getModel(renderer, models, model_index)
+
+                    if playingMusic:
+                        sounds[audio_index].stop()
+                        audio_index = (audio_index + 1) % len(sounds)
+                        sounds[audio_index].play()
                 if event.key == K_LEFT:
                     model_index -= 1
                     obj = getModel(renderer, models, model_index)
 
+                    if playingMusic:
+                        sounds[audio_index].stop()
+                        audio_index = (audio_index - 1) % len(sounds)
+                        sounds[audio_index].play()
+                if event.key == K_m:
+                    playingMusic = not playingMusic
+                    if playingMusic:
+                        sounds[audio_index].play()
+                    else:
+                        sounds[audio_index].stop()
                 if event.key == K_0:
                     renderer.setShader(vertex_shader, fragment_shader)
                 if event.key == K_1:
